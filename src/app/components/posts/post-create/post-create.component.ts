@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { PostsService } from '../post.service';
 import { Post } from '../post.model';
+import { mimeType } from './mime-type.validator';
 
 
 @Component({
@@ -33,7 +34,10 @@ export class PostCreateComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(3)]
       }),
       'content': new FormControl(null, { validators: [Validators.required] }),
-      'image': new FormControl(null, { validators: [Validators.required]} )
+      'image': new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
+      })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
@@ -59,9 +63,9 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
-  onImagePicked (event: Event) {
+  onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});
+    this.form.patchValue({ image: file });
     this.form.get('image').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
