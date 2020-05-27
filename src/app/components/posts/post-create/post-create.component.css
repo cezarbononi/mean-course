@@ -4,9 +4,14 @@ textarea {
 }
 
 button {
-  margin-top: 10px;
+  margin: auto;
+  margin-bottom: 15px;
 }
 
 mat-spinner {
   margin: auto;
+}
+
+input[type="file"] {
+  visibility: hidden;
 }
